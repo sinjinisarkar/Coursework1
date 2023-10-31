@@ -11,7 +11,7 @@ typedef struct {
 } FITNESS_DATA;
 
 // Define any additional variables here
-#define MAX_SIZE 1000 //defining the array
+
 
 
 // This is your helper function. Do not change it in any way.
@@ -50,8 +50,8 @@ int main() {
         return 1;
     }
     
-    FITNESS_DATA fitnessData[MAX_SIZE]; // Creates an array named fitnessData and stores the data
-    int numRecords; // Variable to store the number of records read and processed
+    FITNESS_DATA fitnessData[1000]; // Creates an array named fitnessData and stores the data
+    int numRecords = 0 ; // Variable to store the number of records read and processed
 
     int buffer_size = 200; // Giving the buffer size a larger value so that it has the ability to read in any data file
     char line_buffer[buffer_size];
@@ -61,11 +61,10 @@ int main() {
         char time[6];
         char steps[20]; // Have put a large number as assuming steps can be long number
 
-
         // The function will split line_buffer whenever it encounters a comma.
         tokeniseRecord(line_buffer, ",", date, time, steps);
         
-        int stepsInt = atoi(steps); // Have used atoi here to convert from string to integer
+        int stepsInt = atoi(steps); // Have used atoi function here to convert from string to integer
 
         // Store data in the struct array 
         strcpy(fitnessData[numRecords].date, date);
@@ -80,19 +79,22 @@ int main() {
     //Output the number of records
     printf("Number of records in file: %d\n", numRecords);
 
-   // Print the first three rows - took some help of chatgpt as not many resoursces were available online
-    int printRows; 
-    for (int i = 0; i < numRecords && printRows < 3; i++) {
+   // Print the first three rows - took some help of chatgpt as not many resources were available online
+    int printRows = 0; 
+    //using a for loop to loop though the file and will loop until number of records reaches 3
+    for (int i = 0; i < numRecords && printRows < 3; i++) { 
         int found = 0;
+        // Compare the current record's time with all previous records
         for (int j = 0; j < i; j++) {
             if (strcmp(fitnessData[i].time, fitnessData[j].time) == 0) {
-                found = 1;
-                break;
+                found = 1; // Indicate that the same time has been found in a previous record
+                break; // Break the loop as time is not unique
             }
         }
+        // If time is not found then print the row as this means that the time is unique
         if (!found) {
             printf("%s/%s/%d\n", fitnessData[i].date, fitnessData[i].time, fitnessData[i].steps);
-            printRows++;
+            printRows++; // Increment the count of printed unique rows
         }
     }
 
