@@ -13,7 +13,6 @@ typedef struct {
 // Define any additional variables here
 
 
-
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
 // Ouputs: date character array; time character array; steps character array
@@ -42,17 +41,19 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 }
 
+
 // Complete the main function
+// Martin Callaghan. (2023) 'C Bootcamp 5: Files in C'. [PowerPoint presentation]. Accessed: 24th October.
 int main() {
     FILE *file = fopen("FitnessData_2023.csv", "r");
     if (file == NULL) {
         perror("Error");
         return 1;
     }
-    
+
+    // Martin Callaghan. (2023) "C Bootcamp 6: Structured data in C." [PowerPoint presentation]. Accessed: 24th October.
     FITNESS_DATA fitnessData[1000]; // Creates an array named fitnessData and stores the data
     int numRecords = 0 ; // Variable to store the number of records read and processed
-
     int buffer_size = 200; // Giving the buffer size a larger value so that it has the ability to read in any data file
     char line_buffer[buffer_size];
 
@@ -80,9 +81,9 @@ int main() {
     printf("Number of records in file: %d\n", numRecords);
 
    // Print the first three rows - took some help of chatgpt as not many resources were available online
-    int printRows = 0; 
+    int rows = 0; 
     //using a for loop to loop though the file and will loop until number of records reaches 3
-    for (int i = 0; i < numRecords && printRows < 3; i++) { 
+    for (int i = 0; i < numRecords && rows < 3; i++) { 
         int found = 0;
         // Compare the current record's time with all previous records
         for (int j = 0; j < i; j++) {
@@ -94,7 +95,7 @@ int main() {
         // If time is not found then print the row as this means that the time is unique
         if (!found) {
             printf("%s/%s/%d\n", fitnessData[i].date, fitnessData[i].time, fitnessData[i].steps);
-            printRows++; // Increment the count of printed unique rows
+            rows++; // Increment the count of unique printed rows
         }
     }
 
